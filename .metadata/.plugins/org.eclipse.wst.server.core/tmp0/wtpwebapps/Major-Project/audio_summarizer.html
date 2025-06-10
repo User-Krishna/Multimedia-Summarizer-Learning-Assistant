@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio-to-Text Converter</title>
+    <link rel="stylesheet" href="CSS/audio.css"> <!-- Ensure this path is correct -->
+</head>
+<body>
+    <div class="navbar">
+        <img src="image/audio.png" alt="Audio Logo" />
+        <h1>Audio Summarizer</h1>
+    </div>
+    <div class="container">
+        <h1>Speech Correction and Summarizer</h1>
+        <div class="textarea-wrapper">
+            <textarea id="transcription" placeholder="Your transcribed text will appear here..."></textarea>
+            <div class="typed-cursor">|</div>
+        </div>
+
+        <div class="button-container">
+            <div id="start-recording" class="button-image" title="Click to start recording">
+                <img src="image/start.png" alt="Start Recording">
+                <p>Record</p>
+            </div>
+            <div id="stop-recording" class="button-image" style="pointer-events: none; opacity: 0.5;" title="Click to stop recording">
+                <img src="image/stop.png" alt="Stop Recording">
+                <p>Stop</p>
+            </div>
+            <div id="correct-grammar" class="button-image" title="Click to  Correct Grammar">
+                <img src="image/correct.png" alt="Correct Grammar">
+                <p>Correct Grammar</p>
+            </div>
+            <div class="button-with-slider">
+                <div id="summarize" class="button-image" title="Click to generate summary">
+                    <img src="image/summarize.png" alt="Summarize">
+                    <p>Summarize</p>
+                </div>
+                <div class="slider-container">
+                    <p>Select Length</p> <!-- Added Length label -->
+                    <input type="range" id="summary-length" min="1" max="3" step="1" value="2">
+                    <div class="slider-labels">
+                        <span>Short</span>
+                        <span>Mid</span>
+                        <span>Long</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="scripts/audio-to-text.js"></script>
+</body>
+</html>

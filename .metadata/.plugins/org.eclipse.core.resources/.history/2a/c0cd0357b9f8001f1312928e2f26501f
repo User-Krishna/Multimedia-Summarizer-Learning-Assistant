@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Files</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-image: url('image/upload.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #444;
+        }
+
+        .navbar {
+            width: 100%;
+            background-color: #4b4a4a; /* Black background color */
+            padding: 10px 20px; /* Add padding for better spacing */
+            text-align: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .navbar img {
+            height: 40px; /* Adjust the height of the image */
+            margin-right: 15px; /* Add some space between the image and the title */
+        }
+
+        .navbar h1 {
+            margin: 0;
+            color: whitesmoke; /* Font color */
+            font-size: 24px;
+        }
+
+        .main-container {
+            display: flex;
+            align-items: stretch;
+            gap: 20px;
+        }
+
+        .container {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 500px;
+        }
+
+        .slider-container {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 120px;
+        }
+
+        .container:hover,
+        .slider-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        h2 {
+            margin-bottom: 25px;
+            color: #5a3d2b;
+            font-size: 24px; /* Decrease font size if desired */
+            font-weight: bold;
+            text-align: center; /* Center the text */
+        }
+
+        .file-list {
+            margin-top: 15px;
+            padding: 15px;
+            background: #f9f5ef;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            text-align: left;
+            max-height: 250px;
+            overflow-y: auto;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+            flex-grow: 1;
+        }
+
+        .file-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 8px;
+            background: #ffffff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: background 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .file-item:hover {
+            background: #f1e6dc;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .file-item span {
+            font-size: 1em;
+            color: #555;
+            flex-grow: 1;
+            margin-right: 15px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .file-item button {
+            padding: 8px 16px;
+            background: #f44336;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        .file-item button:hover {
+            background: #d32f2f;
+            transform: scale(1.05);
+        }
+
+        .add-more-button,
+        .submit-button {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 15px;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .add-more-button {
+            background: #e38f66;
+            color: white;
+            display: block;
+        }
+
+        .add-more-button:hover {
+            background: #c7744e;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .submit-button {
+            background: #87a97e;
+            color: white;
+        }
+
+        .submit-button:hover {
+            background: #75996d;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .supported-formats {
+            margin-top: 10px;
+            padding: 10px;
+            border: 2px dotted #ccc;
+            border-radius: 10px;
+            background: #f7f7f7;
+            color: #555;
+            font-size: 14px;
+        }
+
+        .slider-container input[type="range"] {
+            writing-mode: bt-lr; /* IE */
+            -webkit-appearance: slider-vertical; /* WebKit */
+            width: 20px; /* Adjust the width of the slider */
+            height: 400px; /* Adjust the height of the slider */
+            background: #ddd;
+            outline: none;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+            margin: 0 auto;
+        }
+
+        .slider-container input[type="range"]:hover {
+            opacity: 1;
+        }
+
+        .slider-container span {
+            display: block;
+            margin-top: 10px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="navbar">
+        <img src="image/documentation.png"/>
+        <h1>Document Uploader</h1>
+    </div>
+    <div class="main-container">
+        <div class="container">
+            <h2>Upload Document</h2>
+            <form id="fileUploadForm" action="UploadServlet" method="post" enctype="multipart/form-data">
+                <div id="fileList" class="file-list">
+                    <ul></ul>
+                </div>
+                <input type="file" id="fileInput" name="files" accept=".doc, .docx, .txt, .pdf" multiple style="display: none;">
+                <input type="hidden" id="wordCount" name="wordCount" value="300"> <!-- Hidden input field -->
+                <button type="button" id="chooseButton" class="add-more-button" onclick="triggerFileInput()">Choose Document</button>
+                <br><br>
+                <button type="submit" class="submit-button">Summarize</button>
+            </form>
+            <div class="supported-formats">
+                Supported formats: .doc, .docx, .txt, .pdf
+            </div>
+        </div>
+        <div class="slider-container">
+            <input type="range" id="wordCountSlider" min="200" max="10000" step="50" value="300">
+            <span id="wordCountDisplay">300 words</span>
+        </div>
+    </div>
+    <script>
+        let selectedFiles = [];
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const fileInput = document.getElementById('fileInput');
+            const fileList = document.getElementById('fileList');
+            const chooseButton = document.getElementById('chooseButton');
+            const wordCountSlider = document.getElementById('wordCountSlider');
+            const wordCountDisplay = document.getElementById('wordCountDisplay');
+            const wordCountInput = document.getElementById('wordCount'); // Get the hidden input field
+
+            fileInput.addEventListener('change', function () {
+                const files = Array.from(fileInput.files);
+                selectedFiles = selectedFiles.concat(files);
+                updateFileList();
+                fileInput.value = ''; // Clear the input value to allow selecting the same file again
+            });
+
+            wordCountSlider.addEventListener('input', function () {
+                wordCountDisplay.textContent = `${wordCountSlider.value} words`;
+                wordCountInput.value = wordCountSlider.value; // Update the hidden input field's value
+            });
+        });
+
+        function updateFileList() {
+            const fileList = document.getElementById('fileList');
+            const fileListUl = fileList.querySelector('ul');
+            const chooseButton = document.getElementById('chooseButton');
+            fileListUl.innerHTML = ''; // Clear the existing list before adding new ones
+
+            selectedFiles.forEach((file, index) => {
+                const fileItem = document.createElement('li');
+                fileItem.className = 'file-item';
+                fileItem.innerHTML = `
+                    <span>${file.name}</span>
+                    <button type="button" onclick="deleteFile(${index})">Delete</button>
+                `;
+                fileListUl.appendChild(fileItem);
+            });
+
+            if (selectedFiles.length > 0) {
+                chooseButton.style.display = 'none';
+            } else {
+                chooseButton.style.display = 'block';
+            }
+        }
+
+        function deleteFile(index) {
+            selectedFiles.splice(index, 1);
+            updateFileList();
+        }
+
+        function triggerFileInput() {
+            const fileInput = document.getElementById('fileInput');
+            fileInput.click();
+        }
+
+        document.getElementById('fileUploadForm').addEventListener('submit', function (e) {
+            const dt = new DataTransfer();
+            selectedFiles.forEach(file => {
+                dt.items.add(file);
+            });
+            document.getElementById('fileInput').files = dt.files;
+        });
+    </script>
+</body>
+
+</html>

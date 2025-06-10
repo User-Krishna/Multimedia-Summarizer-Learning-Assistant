@@ -1,0 +1,300 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Summary</title>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(#ccc, #fff);
+            font: 18px sans-serif;
+            padding: 20px;
+            margin: 0;
+        }
+        
+        .letter {
+            background: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            margin: 26px auto 0;
+            max-width: 1000px;
+            min-height: 300px;
+            padding: 24px;
+            position: relative;
+            width: 95%;
+        }
+
+        .letter:before, .letter:after {
+            content: "";
+            height: 98%;
+            position: absolute;
+            width: 100%;
+            z-index: -1;
+        }
+
+        .letter:before {
+            background: #fafafa;
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+            left: -5px;
+            top: 4px;
+            transform: rotate(-2.5deg);
+        }
+
+        .letter:after {
+            background: #f6f6f6;
+            box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+            right: -3px;
+            top: 1px;
+            transform: rotate(1.4deg);
+        }
+
+        .letter p {
+            line-height: 1.8;
+            margin-bottom: 10px;
+        }
+
+        #hamburger {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 30px;
+            cursor: pointer;
+        }
+
+        .sidebar {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #111;
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+            z-index: 1;
+        }
+
+        .sidebar a {
+            padding: 8px 8px 8px 32px;
+            text-decoration: none;
+            font-size: 18px; /* Decreased font size */
+            color: #818181;
+            display: block;
+            transition: 0.3s;
+        }
+
+        .sidebar a:hover {
+            color: #f1f1f1;
+        }
+
+        .sidebar .closebtn {
+            position: absolute;
+            top: 0;
+            right: 25px;
+            font-size: 36px;
+            margin-left: 50px;
+        }
+
+        .right-sidebar {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            top: 0;
+            right: 0;
+            background-color: #111;
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+            z-index: 1;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .right-sidebar h2 {
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .right-sidebar .closebtn {
+            position: absolute;
+            top: 0;
+            left: 85px;
+            font-size: 36px;
+            margin-left: 50px;
+            color: #818181;
+        }
+
+        .right-sidebar textarea {
+            width: 80%;
+            margin: 20px 0;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: none;
+            resize: none;
+        }
+
+        .right-sidebar button {
+            margin: 20px 0;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #28a745;
+            color: white;
+            transition: background-color 0.3s ease;
+        }
+
+        .right-sidebar button:hover {
+            background-color: #218838;
+        }
+
+        .dark-mode {
+            background: linear-gradient(#333, #111);
+        }
+
+        .dark-mode .letter {
+            background: #222;
+            color: #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div id="hamburger" onclick="openNav()"><i class="fas fa-bars"></i></div>
+
+    <div id="mySidebar" class="sidebar">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <a href="landing.html"><i class="fas fa-home"></i> Return Home</a><br>
+        <a href="#" onclick="openRightSidebar()"><i class="fas fa-edit"></i> Write Note</a><br>
+        <a href="#" onclick="downloadSummary()"><i class="fas fa-download"></i> Download Summary</a><br>
+        <a href="#" onclick="printSummary()"><i class="fas fa-print"></i> Print Summary</a><br>
+        <a href="#" onclick="copyToClipboard()"><i class="fas fa-copy"></i> Copy to Clipboard</a><br>
+        <a href="javascript:void(0)" onclick="toggleDarkMode()"><i class="fas fa-moon"></i> Dark Mode</a><br>
+    </div>
+
+    <div id="rightSidebar" class="right-sidebar">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeRightSidebar()">&times;</a>
+        <h2>Write Note</h2>
+        <textarea id="noteTextarea" rows="10" placeholder="Write your note here..."></textarea>
+        <div style="display: flex; gap: 10px;">
+            <button onclick="saveNote()">Save</button>
+            <button onclick="clearNote()">Clear</button>
+        </div>
+    </div>
+
+     <div class="letter">
+    <h1>Summary of <%= session.getAttribute("filename") %>:</h1>
+    <div id="summary">
+        <%
+            String summary = (String) session.getAttribute("summary");
+
+            if (summary != null) {
+                // Replace ##...## with <h1> and **...** with <h2>
+                summary = summary.replaceAll("##(.*?)##", "<h1>$1</h1>");
+                summary = summary.replaceAll("\\*\\*(.*?)\\*\\*", "<h2>$1</h2>");
+                summary =summary.replaceAll("##");
+                
+                // Split the summary into sentences for formatting purposes
+                String[] sentences = summary.split("\\.\\s*");
+                int sentenceCount = 0;
+                int paragraphSentenceCount = 5 + (int)(Math.random() * ((10 - 5) + 1)); // Random number between 5 and 10
+
+                // Group sentences into paragraphs based on random sentence count
+                StringBuilder paragraph = new StringBuilder();
+                for (String sentence : sentences) {
+                    paragraph.append(sentence.trim()).append(". ");
+                    sentenceCount++;
+                    if (sentenceCount >= paragraphSentenceCount) {
+                        out.print("<p style='text-indent: 1em;'>" + paragraph.toString().trim() + "</p>");
+                        paragraph.setLength(0); // Reset paragraph
+                        sentenceCount = 0;
+                        paragraphSentenceCount = 5 + (int)(Math.random() * ((10 - 5) + 1)); // Generate new random number for next paragraph
+                    }
+                }
+
+                // Print the remaining sentences if any
+                if (paragraph.length() > 0) {
+                    out.print("<p style='text-indent: 1em;'>" + paragraph.toString().trim() + "</p>");
+                }
+            } else {
+                out.print("No summary generated.");
+            }
+        %>
+    </div>
+</div>
+    <script>
+        function openNav() {
+            document.getElementById("mySidebar").style.width = "250px";
+        }
+
+        function closeNav() {
+            document.getElementById("mySidebar").style.width = "0";
+        }
+
+        function openRightSidebar() {
+            closeNav(); // Close the hamburger menu
+            document.getElementById("rightSidebar").style.width = "300px"; // Increase width for better UI
+        }
+
+        function closeRightSidebar() {
+            document.getElementById("rightSidebar").style.width = "0";
+        }
+
+        function downloadSummary() {
+            const summary = document.getElementById('summary').innerText;
+            const blob = new Blob([summary], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'summary.txt';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function printSummary() {
+            const summaryContent = document.getElementById('summary').innerHTML;
+            const newWindow = window.open('', '', 'width=800, height=600');
+            newWindow.document.write('<html><head><title>Print Summary</title></head><body>');
+            newWindow.document.write(summaryContent);
+            newWindow.document.write('</body></html>');
+            newWindow.print();
+        }
+
+        function copyToClipboard() {
+            const summary = document.getElementById('summary').innerText;
+            navigator.clipboard.writeText(summary).then(() => {
+                alert('Summary copied to clipboard!');
+            }).catch(err => {
+                console.error('Could not copy text: ', err);
+            });
+        }
+
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+        }
+
+        function saveNote() {
+            const note = document.getElementById('noteTextarea').value;
+            if (note) {
+                // Sending the note to the server using AJAX
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', 'saveNote.jsp', true);
+                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        closeRightSidebar();
+                    }
+                };
+                xhr.send('note=' + encodeURIComponent(note));
+            }
+        }
+        function clearNote() {
+            document.getElementById('noteTextarea').value = '';
+        }
+    </script>
+</body>
+</html>

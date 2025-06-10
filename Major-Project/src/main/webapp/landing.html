@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" type="text/css" href="CSS/landing.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000000;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            position: relative;
+        }
+
+        .main-content {
+            width: 75%;
+            padding: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #ffffff;
+            background-image: url(image/back.jpg);
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .title {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 2em;
+            font-weight: bold;
+            background: whitesmoke;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientEffect 3s infinite alternate;
+            transition: font-size 0.3s ease;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap');
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+            width: 100%;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .assistant-container {
+            padding: 40px;
+            background: rgb(226 198 208 / 95%);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.4);
+            width: 90%;
+            max-width: 600px;
+            text-align: center;
+            margin-top: 1rem;
+            animation: fadeIn 1s ease-in-out;
+            transition: transform 0.4s ease, box-shadow 0.4s ease, background 0.4s ease;
+            margin-right: 25rem;
+        }
+
+        .assistant-container:hover {
+            transform: scale(1.05);
+            box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.6);
+            background: linear-gradient(135deg, rgb(4, 4, 4), rgba(4, 154, 255, 0.9));
+        }
+
+        .image-container {
+            margin: 20px auto;
+            perspective: 1000px;
+        }
+
+        .three-d-image {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            transform-style: preserve-3d;
+            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.5);
+            transition: transform 0.6s ease, box-shadow 0.6s ease;
+        }
+
+        .three-d-image:hover {
+            transform: rotateY(360deg);
+            box-shadow: 0px 12px 30px rgba(0, 0, 0, 0.8);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            font-weight: 900;
+        }
+
+        p {
+            color: #3d3830;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            margin-top: 20px;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            color: #fff;
+            background: linear-gradient(45deg, #4caf50, #3e8e41);
+            border: none;
+            border-radius: 50px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .btn:active {
+            transform: translateY(2px);
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .nav-item i {
+            font-size: 24px; /* Adjust the size as needed */
+            margin-right: 10px; /* Space between icon and text */
+        }
+
+        .nav-item span {
+            font-size: 18px; /* Adjust the size as needed */
+            color: #fff; /* Adjust the color as needed */
+        }
+
+        a {
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Project Title -->
+    
+    <div class="title">
+    
+        Intelligent Multimedia Summarizer and Learning Assistant
+    </div>
+
+    <!-- Container: Sidebar + Main Content -->
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <h2>Navigation</h2>
+            <a href="upload.html" style="text-decoration: none;">
+                <div class="nav-item">
+                    <img src="https://img.icons8.com/fluency/48/upload.png" alt="Upload Icon">
+                    <span>Upload Document</span>
+                </div>
+            </a>
+             <a href="audio_summarizer.html" style="text-decoration: none;">
+                <div class="nav-item">
+                    <img src="image/audio.png" alt="Audio to Text Icon">
+                    <span>Speech Summarizer</span>
+                </div>
+            </a>
+            <a href="http://localhost:8502/" style="text-decoration: none;">
+                <div class="nav-item">
+                    <img src="image/y1.png" alt="Audio to Text Icon">
+                    <span>Youtube Video Summarizer</span>
+                </div>
+            </a>
+            <a href="displaySummary.jsp" style="text-decoration: none;">
+                <div class="nav-item">
+                    <img src="image/summary-check.png" alt="Document Icon">
+                    <span>Summary</span>
+                </div>
+            </a>
+             <a href="notes.html" style="text-decoration: none;">
+                <div class="nav-item">
+                    <img src="image/pencil.png" alt="Document Icon">
+                    <span>Notes</span>
+                </div>
+            </a>
+            <a href="chatbot.html" style="text-decoration: none;">
+                <div class="nav-item">
+                   <img src="image/chatbot.png" alt="Infobuddy"> 
+                    <span>InfoBuddy</span>
+                </div>
+            </a>
+            <a href="translator.html" style="text-decoration: none;">
+                <div class="nav-item">
+                    <img src="image/languages.png" alt="Language Translator">
+                    <span>Language Translator</span>
+                </div>
+            </a>
+           <a href="LogoutServlet" style="text-decoration: none;">
+    <div class="nav-item">
+        <img src="image/user-logout.png" alt="Logout Icon">
+        <span>Log Out</span>
+    </div>
+</a>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Assistant Content -->
+            <div class="assistant-container">
+                <h1>Your AI Assistant</h1>
+                <div class="image-container">
+                    <img src="image/robo.jpg" alt="3D AI Assistant" class="three-d-image">
+                </div>
+                <p>Click the button and give a voice command 🗣🎙</p>
+                <button id="listen-btn" class="btn">🎙 Start Listening</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Group Members Section (Bottom Right) -->
+    <div class="group-details">
+        <ul>
+            <li><span>BINOD SUBEDI</span> (21831A05E4)</li>
+            <li><span>KRISHNA DAS</span> (21831A05H6)</li>
+            <li><span>ANKUR KUMAR SINGH</span> (21831A05E9)</li>
+        </ul>
+    </div>
+
+    <script>
+        // Check if the browser supports SpeechRecognition
+        if (!('SpeechRecognition' in window) && !('webkitSpeechRecognition' in window)) {
+            alert('Your browser does not support Speech Recognition. Please use Google Chrome.');
+        } else {
+            const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+            recognition.lang = "en-US";
+            const btn = document.querySelector("#listen-btn");
+
+            btn.addEventListener("click", function () {
+                function speak(text) {
+                    const utterance = new SpeechSynthesisUtterance(text);
+                    window.speechSynthesis.speak(utterance);
+                }
+
+                function handleCommand(command) {
+                    const commandMap = {
+                        "open upload document": {
+                            message: "Opening page for uploading Documents...",
+                            url: "http://localhost:8088/Major-Project/upload.html",
+                            target: "_self"
+                        },
+                        "open Speech Summarizer": {
+                            message: "Opening Speech Summarizer",
+                            url: "http://localhost:8088/Major-Project/audio_summarizer.html",
+                            target: "_self"
+                        },
+                        "open summary ": {
+                            message: "opening summary page...",
+                            url: "http://localhost:8088/Major-Project/displaySummary.jsp",
+                            target: "_self"
+                        },
+                        "open notes": {
+                            message: "opening Notes",
+                            url: "http://localhost:8088/Major-Project/notes.html",
+                            target: "_self"
+                        },
+                        "open infobuddy": {
+                            message: "opening infobuddy chatbot...",
+                            url: "http://localhost:8088/Major-Project/chatbot.html",
+                            target: "_self"
+                        },
+                        "open Youtube Video Summarizer": {
+                            message: "opening Youtube Video Summarizer",
+                            url: "http://localhost:8502/",
+                            target: "_self"
+                        },
+                        "open language translator": {
+                            message: "opening language translator",
+                            url: "http://localhost:8088/Major-Project/translator.html",
+                            target: "_self"
+                        },
+                        "logout": {
+                            message: "Logging you out",
+                            url: "http://localhost:8088/Major-Project/thankyou.html",
+                            target: "_self"
+                        }
+                    };
+
+                    const lowerCaseCommand = command.toLowerCase();
+                    const matchedCommand = Object.keys(commandMap).find(key => lowerCaseCommand.includes(key));
+
+                    if (matchedCommand) {
+                        const { message, url, target } = commandMap[matchedCommand];
+                        speak(message);
+                        window.open(url, target);
+                    } else {
+                        speak("Sorry, I didn't understand that command.");
+                    }
+                }
+
+                function speak(text) {
+                    const utterance = new SpeechSynthesisUtterance(text);
+                    window.speechSynthesis.speak(utterance);
+                }
+
+                // Example usage
+                speak("Go ahead, give me a command");
+                setTimeout(() => {
+                    btn.innerHTML = "Listening...👂";
+                    btn.classList.add("listening");
+                    recognition.start();
+                }, 2500);
+
+                recognition.onresult = (event) => {
+                    const command = event.results[0][0].transcript.toLowerCase();
+                    handleCommand(command);
+                };
+
+                recognition.onerror = (event) => {
+                    console.error('Speech recognition error detected: ' + event.error);
+                    speak("An error occurred. Please try again.");
+                };
+
+                recognition.onend = () => {
+                    btn.innerHTML = "Start Listening";
+                    btn.classList.remove("listening");
+                };
+            });
+        }
+    </script>
+</body>
+</html>

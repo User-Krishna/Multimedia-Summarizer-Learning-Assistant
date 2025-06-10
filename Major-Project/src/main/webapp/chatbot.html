@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InfoBuddy</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #282c34; /* Dark background for the whole page */
+            color: #ffffff;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .navbar {
+            width: 100%;
+            background-color: #000000; /* Black background color */
+            padding: 10px 0;
+            text-align: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .navbar h1 {
+            margin: 0;
+            color: whitesmoke; /* Font color */
+            font-size: 24px;
+            flex-grow: 1;
+            text-align: center;
+        }
+
+        .navbar i {
+            margin-left: 20px;
+            color: whitesmoke;
+            font-size: 24px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px; /* Increased width for better readability */
+            height: 80vh; /* Set a height to make the chat container fit nicely on the screen */
+            background-color: #3b4049; /* Darker background for the container */
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            margin-top: 60px; /* Space for the navbar */
+        }
+
+        .chat-box {
+            flex: 1;
+            padding: 16px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background-color: #2e3238; /* Slightly lighter background for chat area */
+        }
+
+        .input-box {
+            display: flex;
+            border-top: 1px solid #444; /* Dark border */
+            padding: 10px;
+            background-color: #3b4049; /* Match container background */
+            position: sticky;
+            bottom: 0;
+        }
+
+        .input-box input {
+            flex: 1;
+            border: 1px solid #444; /* Dark border */
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 4px;
+            outline: none;
+            margin-right: 10px;
+            color: #ffffff;
+            background-color: #282c34; /* Dark background for input field */
+        }
+
+        .input-box button {
+            background-color: #282c34; /* Dark background for button */
+            color: #ffffff;
+            border: none;
+            padding: 10px 16px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        .input-box button:hover {
+            background-color: #1f2428;
+        }
+
+        .message {
+            padding: 10px 20px;
+            border-radius: 20px;
+            max-width: 70%; /* Increased width to 70% */
+            word-wrap: break-word;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .message.user {
+            background-color: #4caf50; /* Green background for user messages */
+            align-self: flex-end;
+            margin-right: 10px;
+            border-bottom-right-radius: 0;
+        }
+
+        .message.bot {
+            background-color: #444; /* Dark background for bot messages */
+            align-self: flex-start;
+            margin-left: 10px;
+            border-bottom-left-radius: 0;
+        }
+
+        .message p {
+            margin: 0;
+            color: #ffffff; /* Ensure text color is white */
+        }
+
+        .message .icon {
+            margin-right: 10px;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 16px;
+            font-size: 16px;
+            color: #bbbbbb;
+        }
+
+        .bot-gif {
+            width: 200px; /* Set width to reduce size */
+            height: auto; /* Maintain aspect ratio */
+            border-radius: 20px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <i class="fas fa-robot"></i>
+        <h1>InfoBuddy</h1>
+    </div>
+    <div class="container">
+        <div class="chat-box" id="chat-box"></div>
+        <div class="loading" id="loading">Loading...</div>
+        <div class="input-box">
+            <input type="text" id="user-input" placeholder="Type your message here...">
+            <button onclick="sendMessage()"><i class="fas fa-paper-plane"></i> Send</button>
+        </div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const chatBox = document.getElementById("chat-box");
+            const userInput = document.getElementById("user-input");
+            const loading = document.getElementById("loading");
+
+            // Display the initial bot GIF
+            displayInitialGif();
+
+            function displayInitialGif() {
+                const gifElement = document.createElement("img");
+                gifElement.src = "image/robot1.gif";
+                gifElement.alt = "Ask me anything";
+                gifElement.className = "bot-gif";
+                chatBox.appendChild(gifElement);
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }
+
+            function sendMessage() {
+                const message = userInput.value.trim();
+                if (message) {
+                    displayMessage("user", message);
+                    userInput.value = "";
+                    loading.style.display = "block"; // Show loading indicator
+                    fetch("http://localhost:8080/api/chat", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(message)
+                    })
+                    .then(response => response.text())
+                    .then(data => {
+                        displayMessage("bot", data);
+                    })
+                    .catch(error => {
+                        console.error("Error:", error);
+                    })
+                    .finally(() => {
+                        loading.style.display = "none"; // Hide loading indicator
+                    });
+                }
+            }
+
+            function displayMessage(sender, message) {
+                const messageElement = document.createElement("div");
+                messageElement.className = `message ${sender}`;
+                if (sender === "bot") {
+                    const iconElement = document.createElement("i");
+                    iconElement.className = "fas fa-robot icon";
+                    messageElement.appendChild(iconElement);
+                }
+                messageElement.innerHTML += formatMessage(message);
+                chatBox.appendChild(messageElement);
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }
+
+            function formatMessage(message) {
+                // Convert markdown style bullets to HTML unordered list
+                message = message.replace(/\*(.*?)\*/g, "<strong>$1</strong>");
+                message = message.replace(/-\s(.*?)(?=\n|$)/g, "<li>$1</li>");
+                message = message.replace(/\n/g, "<br>");
+                return `<p>${message}</p>`;
+            }
+            // Event listener for Enter key
+            userInput.addEventListener("keydown", function(event) {
+                if (event.key === "Enter") {
+                    event.preventDefault(); // Prevent default form submission (if any)
+                    sendMessage();
+                }
+            });
+
+            window.sendMessage = sendMessage;
+        });
+    </script>
+</body>
+</html>

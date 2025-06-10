@@ -1,0 +1,93 @@
+Content Summarization Process
+Tokenizing Content into Sentences using the TextPreprocessor Class:
+
+Purpose: To break down the extracted text content into individual sentences for further processing.
+Implementation: The TextPreprocessor class uses models from the OpenNLP library to tokenize the text.
+Steps:
+Load the sentence model (e.g., opennlp-en-ud-ewt-sentence-1.2-2.5.0.bin).
+Use the model to split the text into sentences.
+Example:
+Java
+// Initialize the TextPreprocessor with paths to sentence and tokenizer models
+TextPreprocessor preprocessor = new TextPreprocessor(sentenceModelPath, tokenizerModelPath);
+
+// Tokenize the content into sentences
+String[] sentences = preprocessor.tokenizeSentences(fileContent);
+Ranking Sentences Using the TextRank Class:
+
+Purpose: To determine the importance of each sentence in the text, so that the most important sentences can be included in the summary.
+Implementation: The TextRank algorithm ranks sentences based on their relevance and connectivity with other sentences.
+Steps:
+Create a graph where nodes represent sentences.
+Connect nodes with edges based on sentence similarity.
+Apply the TextRank algorithm to rank sentences.
+Example:
+Java
+// Initialize the TextRank algorithm
+TextRank textRank = new TextRank();
+
+// Rank the sentences
+List<String> rankedSentences = textRank.rankSentences(Arrays.asList(sentences));
+Generating the Summary by Selecting Top-Ranked Sentences:
+
+Purpose: To create a concise summary by selecting the most important sentences, while ensuring the total word count does not exceed the specified limit.
+Implementation: Select sentences in order of their rank until the word count limit is reached.
+Steps:
+Initialize a counter for the total word count.
+Iterate through the ranked sentences, adding them to the summary until the word count limit is reached.
+Example:
+Java
+private String generateSummaryWithWordCount(List<String> sentences, int wordCount) {
+    StringBuilder summary = new StringBuilder();
+    int currentWordCount = 0;
+
+    for (String sentence : sentences) {
+        int sentenceWordCount = sentence.split("\\s+").length;
+        if (currentWordCount + sentenceWordCount <= wordCount) {
+            summary.append(sentence).append(" ");
+            currentWordCount += sentenceWordCount;
+        } else {
+            break;
+        }
+    }
+    return summary.toString().trim();
+}
+Detailed Example
+Combining all the steps, here’s how the summarization is achieved in the UploadServlet:
+
+Java
+private String processAndSummarizeContent(String fileContent, int wordCount) throws IOException {
+    // Paths to sentence and tokenizer models
+    String sentenceModelPath = "path/to/opennlp-en-ud-ewt-sentence-1.2-2.5.0.bin";
+    String tokenizerModelPath = "path/to/opennlp-en-ud-ewt-tokens-1.2-2.5.0.bin";
+
+    // Initialize the TextPreprocessor
+    TextPreprocessor preprocessor = new TextPreprocessor(sentenceModelPath, tokenizerModelPath);
+
+    // Tokenize the content into sentences
+    String[] sentences = preprocessor.tokenizeSentences(fileContent);
+
+    // Initialize the TextRank algorithm
+    TextRank textRank = new TextRank();
+
+    // Rank the sentences
+    List<String> rankedSentences = textRank.rankSentences(Arrays.asList(sentences));
+
+    // Generate the summary with a word count limit
+    String summary = generateSummaryWithWordCount(rankedSentences, wordCount);
+    return summary;
+}
+Summary Explanation
+Tokenizing Content:
+
+The TextPreprocessor class is used to split the raw text content into individual sentences.
+This is achieved using pre-trained models from the OpenNLP library.
+Ranking Sentences:
+
+The TextRank class is used to rank the sentences based on their importance.
+Sentences are represented as nodes in a graph, with edges indicating similarity between sentences.
+The TextRank algorithm is applied to score each sentence.
+Generating the Summary:
+
+The top-ranked sentences are selected to form the summary.
+The total word count of the summary is kept within the specified limit by adding sentences until the limit is reached.

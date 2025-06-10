@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Notes</title>
+    <style>
+        :root {
+            --pink: #ecb2ba;
+            --pink-dark: #c6939a;
+            --tape-gray: #dbd8be;
+            --tape-edge-gray: #b7b49d;
+            --transparent: rgba(255, 255, 255, 0);
+        }
+
+        body {                        
+            background-image: url('image/note1.jpg');
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+             background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+         .navbar {
+            width: 100%;
+            background-color: #000000; /* Black background color */
+            padding: 10px 20px; /* Add padding for better spacing */
+            text-align: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+         .navbar h1 {
+            margin: 0;
+            color: whitesmoke; /* Font color */
+            font-size: 24px;
+        }
+          .navbar img {
+            height: 40px; /* Adjust the height of the image */
+            margin-right: 15px; /* Add some space between the image and the title */
+        }
+
+        h1 {
+            font-family: Arial, sans-serif;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        #notesContainer {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            width: 100%;
+            padding: 0 20px;
+            box-sizing: border-box;
+            margin-top: 50px;
+        }
+
+        .paper {
+            flex: 1 1 calc(45% - 40px);
+            max-width: calc(45% - 40px);
+            height: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: space-between;
+            font-family: "Caveat", cursive;
+            font-size: 20px;
+            box-shadow: var(--shadow-size) var(--shadow-size) 2px var(--paper-dark);
+            margin: 10px;
+            background: linear-gradient(
+                    to bottom right,
+                    var(--paper-dark),
+                    20%,
+                    var(--transparent)
+                ),
+                var(--paper-color);
+            position: relative;
+            padding: 15px;
+            box-sizing: border-box;
+        }
+
+        .pink {
+            --paper-color: var(--pink);
+            --paper-dark: var(--pink-dark);
+            --shadow-size: 1px;
+            --transparent: rgba(236, 178, 186, 0);
+        }
+
+        .blue {
+            --paper-color: #d5e0f9;
+            --paper-dark: #c2d0ea;
+            --shadow-size: 3px;
+            --transparent: rgba(213, 224, 249, 0);
+        }
+
+        .tape-section {
+            position: absolute;
+            width: 100%;
+        }
+
+        .top-tape {
+            position: absolute;
+            height: 4vmin;
+            top: -5px;
+            width: 110%;
+            background-color: var(--tape-gray);
+            border-right: 1px dotted var(--tape-edge-gray);
+            border-left: 1px dotted var(--tape-edge-gray);
+            opacity: 0.5;
+        }
+
+        .tape-section:first-of-type {
+            top: 0;
+        }
+
+        .tape-section:last-of-type {
+            bottom: 0;
+        }
+
+        .tape-section::before,
+        .tape-section::after {
+            content: "";
+            width: 10vmin;
+            height: 4vmin;
+            position: absolute;
+            background-color: var(--tape-gray);
+            opacity: 0.5;
+            border-right: 1px dotted var(--tape-edge-gray);
+            border-left: 1px dotted var(--tape-edge-gray);
+        }
+
+        .tape-section:last-of-type::after {
+            transform: rotate(-45deg);
+            right: -4vmin;
+            top: -3vmin;
+        }
+
+        .tape-section:first-of-type::before {
+            transform: rotate(-45deg);
+            left: -4vmin;
+        }
+
+        .tape-section:first-of-type::after {
+            transform: rotate(45deg);
+            right: -4vmin;
+            top: 0;
+        }
+
+        .tape-section:last-of-type::before {
+            transform: rotate(45deg);
+            left: -4vmin;
+            bottom: 0;
+        }
+
+        .download-btn {
+            margin-top: 10px;
+            padding: 8px 12px;
+            font-size: 14px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+            align-self: center;
+        }
+
+        .download-btn:hover {
+            background-color: #45a049;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+    <!-- Navbar -->
+    <div class="navbar">
+        <img src="image/pencil.png"/>
+        <h1>Notes</h1>
+    </div>
+    <div id="notesContainer">
+        <!-- Notes will be dynamically added here -->
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', 'getNotes.jsp', true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    document.getElementById('notesContainer').innerHTML = xhr.responseText;
+                }
+            };
+            xhr.send();
+        });
+
+        function downloadTape(elementId) {
+            const element = document.getElementById(elementId);
+            const button = element.querySelector('.download-btn');
+
+            // Temporarily hide the button
+            if (button) button.style.display = 'none';
+
+            html2canvas(element).then(canvas => {
+                // Restore the button visibility after capturing
+                if (button) button.style.display = 'block';
+
+                const link = document.createElement('a');
+                link.download = `${elementId}.png`;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            });
+        }
+        
+        
+    </script>
+</body>
+</html>

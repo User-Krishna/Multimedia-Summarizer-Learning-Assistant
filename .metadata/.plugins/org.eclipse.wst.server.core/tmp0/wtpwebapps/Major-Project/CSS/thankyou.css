@@ -1,0 +1,119 @@
+@charset "UTF-8";
+.container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.6); /* Overlay for background */
+        }
+
+        .content {
+            text-align: center;
+            color: #fff;
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        .content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            animation: textSlide 2s ease forwards;
+            color: red;
+            transition: color 0.5s ease-in-out;
+        }
+
+        .content h1:hover {
+            color: blue;
+        }
+
+        .content p {
+            font-size: 1.2rem;
+            margin: 10px 0;
+            animation: textFade 2.5s ease-in-out forwards;
+            color: yellow;
+            transition: color 0.5s ease-in-out;
+        }
+
+        .content p:hover {
+            color: #FF1493;
+        }
+
+        .circle-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto;
+        }
+
+        .circle-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 10px solid transparent;
+            border-top-color: #1E90FF; /* Dodger Blue */
+            border-right-color: #FF1493; /* Deep Pink */
+            border-bottom-color: #32CD32; /* Lime Green */
+            border-left-color: #FFD700; /* Gold */
+            animation: rotateBorder 4s linear infinite;
+            box-sizing: border-box;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .circle-container img {
+            width: 85%;
+            height: 85%;
+            border-radius: 50%;
+            object-fit: cover;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .circle-container:hover img {
+            transform: scale(1.1);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes textSlide {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes textFade {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes rotateBorder {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
