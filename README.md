@@ -7,7 +7,7 @@ The **Intelligent Multimedia Summarizer and Learning Assistant** is a comprehens
 ## 📈 Architecture Diagram
 Below is the system architecture diagram :
 
-![Architecture Diagram](https://example.com/architecture_diagram.png)
+![Architecture Diagram](https://i.postimg.cc/yWqyB8qy/11-Architecture-Diagram.png)
 
 **Explanation:**  
 The architecture comprises a modular, layered structure:  
@@ -58,30 +58,37 @@ The system uses a **MySQL** database with the following tables:
 ## 📸 Screenshots & UI Preview
 
 Here are the screenshots of the application showcasing various modules and UI components:
+### 
+
+### 🌟 Landing Page
+![Landing Page](https://i.postimg.cc/KYgLcyN9/Picture2.png)
 
 ### 🏠 Home Page (Dashboard)
-![Home Page](https://example.com/homepage.png)
+![Home Page](https://i.postimg.cc/Y2N6mMwZ/Picture8.png)
 
 ### 📄 Upload Document Module
-![Upload Document Module](https://example.com/upload_document.png)
+![Upload Document Module](https://i.postimg.cc/JnVXGdYR/Picture3.png)
 
 ### 📝 Summary Module
-![Summary Module](https://example.com/summary_module.png)
+![Summary Module](https://i.postimg.cc/90GHczRW/Picture10.png)
 
 ### 🤖 InfoBuddy Chatbot
-![Chatbot Module](https://example.com/chatbot.png)
+![Chatbot Module](https://i.postimg.cc/jdszHmx5/Picture6.png)
 
 ### 🎙️ Speech Recognition and Summarizer
-![Speech Summarizer Module](https://example.com/speech_module.png)
+![Speech Summarizer Module](https://i.postimg.cc/3NpYWn6Q/Screenshot-1218.png)
 
 ### 🎥 YouTube Video Summarizer
-![YouTube Summarizer Module](https://example.com/youtube_module.png)
+![YouTube Summarizer Module](https://i.postimg.cc/13dwZzpn/Picture5.png)
 
 ### 🗒️ Note-taking Tool
-![Note-taking Module](https://example.com/note_taking.png)
+![Note-taking Module](https://i.postimg.cc/v86QPZm2/Screenshot-1219.png)
 
 ### 🌐 Language Translation Module
-![Language Translation Module](https://example.com/translation_module.png)
+![Language Translation Module](https://i.postimg.cc/282n2Gyx/Picture7.png)
+
+### 🔓 Logout Page
+![Logout Page](https://i.postimg.cc/1tvyL8qb/Picture9.png)
 
 ---
 
