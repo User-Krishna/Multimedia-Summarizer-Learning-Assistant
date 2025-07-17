@@ -19,7 +19,7 @@ public class AIService {
     private static final Logger logger = LoggerFactory.getLogger(AIService.class);
 
     private static final String GEMINI_MODEL = "gemini-1.5-flash";
-    private static final String API_KEY ="AIzaSyCGybSb4KUXRodraGgBoAXNpjVJEEFq4U0";
+    private static final String API_KEY ="use your own key";
     // another api key
     //private static final String API_KEY ="AIzaSyDxxa5DCcFpmSZdfjNChoLlDmm2n9hzs9g";
 
